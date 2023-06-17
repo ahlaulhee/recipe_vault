@@ -1,11 +1,10 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { Landing, Home, Form, Detail, Error } from "./pages";
-// import Landing from "./pages/Landing";
-// import Home from "./pages/Home";
-// import Form from "./pages/Form";
-// import Detail from "./pages/Detail";
-// import Error from "./pages/Error";
+import Landing from "./pages/Landing";
+import Home from "./pages/Home";
+import Form from "./pages/Form";
+import Detail from "./pages/Detail";
+import Error from "./pages/Error";
 
 function App() {
   return (

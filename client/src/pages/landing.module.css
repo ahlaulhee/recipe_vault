@@ -1,0 +1,34 @@
+.landing {
+  position: relative;
+  height: 100vh;
+  background-color: #f8f8f8;
+}
+
+.landingImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.landingBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  font-size: 1.2em;
+  color: white;
+  background-color: #ff6347;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.landingBtn:hover {
+  background-color: #f8f8f8;
+  color: black;
+}

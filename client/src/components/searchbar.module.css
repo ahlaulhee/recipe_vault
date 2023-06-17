@@ -1,0 +1,22 @@
+.searchContainer {
+  padding-top: 1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.searchBar {
+  width: 300px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.selectBox {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
