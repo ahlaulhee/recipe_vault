@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    recipe: {
+    steps: {
       // "analyzedInstructions"
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false, // maybe it can be null

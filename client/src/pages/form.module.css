@@ -1,0 +1,108 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  /* background-color: #f6f6f6; */
+  font-family: "Roboto", sans-serif;
+}
+
+.form {
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.formGroupContainer {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  appearance: none;
+  background-color: #fff;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+.select option {
+  padding: 10px;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.addButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: #22bf3f;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.addButton:hover {
+  background-color: #068e1f;
+}
+
+.delButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: #e76666;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.delButton:hover {
+  background-color: #e14040;
+}
+
+.span {
+  color: #ff0000;
+  /* position: absolute; */
+  /* bottom: -20px; */
+  font-size: 14px;
+}

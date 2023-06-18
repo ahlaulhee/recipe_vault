@@ -62,13 +62,13 @@ router.get("/recipes", async (req, res) => {
 
 router.post("/recipes", async (req, res) => {
   try {
-    const { name, image, summary, health_score, recipe, diets } = req.body;
+    const { name, image, summary, health_score, steps, diets } = req.body;
     const newRecipe = await Recipe.create({
       name,
       image,
       summary,
       health_score,
-      recipe,
+      steps,
     });
     await newRecipe.addDiets(diets);
     res.status(201).json(newRecipe);
