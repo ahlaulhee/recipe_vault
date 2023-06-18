@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  /* height: 100vh; */
+  margin: 1rem;
   /* background-color: #f6f6f6; */
   font-family: "Roboto", sans-serif;
 }

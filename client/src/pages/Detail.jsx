@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 const Detail = () => {
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [foodDetail, setFoodDetail] = useState({
     id: 1, // id
     name: "Fried Anchovies with Sage", // title
@@ -21,7 +22,7 @@ const Detail = () => {
       "Remove batter from fridge and mix once or twice (batter will have separated).Take a sage leaf &amp; anchovy put them together &amp; dip into the batter - allowing access batter to drip off.Fry 20 seconds a side until golden brown.",
       "Remove from oil &amp; drain on a paper towel.",
       "Sprinkle with salt &amp; serve immediately.Pairs great with prosecco or white wine.",
-    ], // analyzedInstructions
+    ], // analyzedInstructions.steps
     diets: ["dairy free", "pescatarian"], // diets
   });
 
@@ -34,9 +35,10 @@ const Detail = () => {
   //       image: response.data.image,
   //       summary: response.data.summary,
   //       healthScore: response.data.healthScore,
-  //       steps: response.data.analyzedInstructions, // maybe i should change this to instructions
+  //       steps: response.data.analyzedInstructions.steps, // maybe i should change this to instructions
   //       diets: response.data.diets,
   //     });
+  //   setLoading(false);
   //   };
   //   fetchDetail();
   // }, [id]);
