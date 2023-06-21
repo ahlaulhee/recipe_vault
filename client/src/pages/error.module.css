@@ -1,0 +1,32 @@
+.container {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.img {
+  width: 40rem;
+  height: auto;
+  /* mix-blend-mode: multiply; */
+}
+
+.h2 {
+  color: #12355b;
+}
+.h3 {
+  color: #12355b;
+}
+
+.btn {
+  border-color: #12355b;
+  background-color: #12355b;
+  color: whitesmoke;
+  border-radius: 10px;
+  height: 2rem;
+  width: 6rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: whitesmoke;
+  color: #12355b;
+}

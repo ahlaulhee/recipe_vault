@@ -5,24 +5,54 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .searchBar {
   width: 300px;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  border-width: 2px;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+
+.searchBar:focus {
+  border-color: #22bf3f;
 }
 
 .selectBox {
-  padding: 5px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  border: 1px solid #ddd;
   border-radius: 5px;
+  font-size: 16px;
+  appearance: none;
+  background-color: #fff;
+  background-position: right 10px center;
+  background-size: 12px;
+  transition: background-color 0.3s ease;
 }
 
-.searchButton {
-  padding: 5px;
-  border: 1px solid #ccc;
+.selectBox option {
+  padding: 10px;
+}
+
+.selectBox:focus {
+  background-color: #e0e0e0;
+}
+
+.searchBtn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #22bf3f;
+  color: #fff;
   border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.searchBtn:hover {
+  background-color: #068e1f;
 }

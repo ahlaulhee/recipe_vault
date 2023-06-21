@@ -1,7 +1,18 @@
 .recipes {
   display: grid;
-  /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .recipes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .recipes {
+    grid-template-columns: 1fr;
+  }
 }

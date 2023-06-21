@@ -58,7 +58,6 @@ const Form = () => {
       const response = await axios.get("http://localhost:3001/diets");
       setDiets(response.data);
     };
-    console.log("a");
     fetchDiets();
   }, []);
 

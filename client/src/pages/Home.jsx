@@ -150,21 +150,25 @@ const Home = () => {
     rec.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const currentFilteredRecipes = filteredRecipes.slice(
+    indexOfFirstRecipe,
+    indexOfLastRecipe
+  );
+
   return (
     <div className={styles.home}>
       <SearchBar handleSearchChange={handleSearchChange} />
-      {searchTerm ? (
-        <FoodCards recipes={filteredRecipes} />
+      {/* {searchTerm ? (
+        <FoodCards recipes={currentFilteredRecipes} />
       ) : (
         <FoodCards recipes={currentRecipes} />
-      )}
-      {!searchTerm && (
-        <Pagination
-          postsPerPage={recipesPerPage}
-          totalPosts={testRecipes.length}
-          paginate={paginate}
-        />
-      )}
+      )} */}
+      <FoodCards recipes={currentFilteredRecipes} />
+      <Pagination
+        postsPerPage={recipesPerPage}
+        totalPosts={filteredRecipes.length}
+        paginate={paginate}
+      />
     </div>
   );
 };

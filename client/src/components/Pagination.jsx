@@ -11,6 +11,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
       <ul className={styles.list}>
         {pageNumbers.map((number) => (
           <button
+            key={number}
             className={styles.button}
             type="button"
             onClick={() => paginate(number)}
