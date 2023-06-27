@@ -3,7 +3,12 @@ import styles from "./searchbar.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const SearchBar = ({ handleSearchChange, fetchRecipesByName, changeOrder }) => {
+const SearchBar = ({
+  handleSearchChange,
+  fetchRecipesByName,
+  changeOrder,
+  changeDiet,
+}) => {
   const [diets, setDiets] = useState([]);
   const navigate = useNavigate();
 
@@ -37,7 +42,7 @@ const SearchBar = ({ handleSearchChange, fetchRecipesByName, changeOrder }) => {
           Health Score
         </option>
       </select>
-      <select className={styles.selectBox}>
+      <select className={styles.selectBox} onChange={changeDiet}>
         <option key={0} value="">
           Select a Diet
         </option>
