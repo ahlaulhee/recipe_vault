@@ -1,36 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react"; // useEffect
 import styles from "./home.module.css";
 import SearchBar from "../components/SearchBar";
 import FoodCards from "../components/FoodCards";
 import axios from "axios";
 import Pagination from "../components/Pagination";
 
-const Home = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [copyRecipes, setCopyRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
+const Home = ({
+  recipes,
+  setRecipes,
+  copyRecipes,
+  setCopyRecipes,
+  loading,
+  setLoading,
+}) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 9;
-
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      setLoading(true);
-      const response = await axios.get("http://localhost:3001/recipes");
-
-      setRecipes(
-        response.data.combinedRecipes.sort((a, b) =>
-          a.title.localeCompare(b.title)
-        )
-      );
-      setCopyRecipes(
-        response.data.combinedRecipes.sort((a, b) =>
-          a.title.localeCompare(b.title)
-        )
-      );
-      setLoading(false);
-    };
-    fetchRecipes();
-  }, []);
 
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
@@ -39,7 +24,6 @@ const Home = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
