@@ -26,46 +26,54 @@ const Detail = () => {
     diets: ["dairy free", "pescatarian"], // diets
   });
 
-  // useEffect(() => {
-  //   const fetchDetail = async () => {
-  //     const response = await axios.get(`http://localhost:3001/recipes/${id}`);
-  //     setFoodDetail({
-  //       id: response.data.id,
-  //       name: response.data.title,
-  //       image: response.data.image,
-  //       summary: response.data.summary,
-  //       healthScore: response.data.healthScore,
-  //       steps: response.data.analyzedInstructions.steps, // maybe i should change this to instructions
-  //       diets: response.data.diets,
-  //     });
-  //   setLoading(false);
-  //   };
-  //   fetchDetail();
-  // }, [id]);
+  useEffect(() => {
+    const fetchDetail = async () => {
+      const response = await axios.get(`http://localhost:3001/recipes/${id}`);
+      setFoodDetail({
+        id: response.data.id,
+        name: response.data.title,
+        image: response.data.image,
+        summary: response.data.summary,
+        healthScore: response.data.healthScore,
+        steps: response.data.instructions, // maybe i should change this to instructions
+        diets: response.data.diets,
+      });
+      setLoading(false);
+    };
+    fetchDetail();
+  }, [id]);
 
   return (
     <div className={styles.container}>
-      <div className={styles.card}>
-        <h2 className={styles.name}>{foodDetail.name}</h2>
-        <img src={foodDetail.image} alt={foodDetail.name} />
-        <p
-          className={styles.summary}
-          dangerouslySetInnerHTML={{ __html: foodDetail.summary }}
-        ></p>
-        <div className={styles.tags}>
-          <span className={styles.healthScore}>{foodDetail.healthScore}</span>
-          <span className={styles.diets}>{foodDetail.diets}</span>
-        </div>
-      </div>
-      <div className={styles.instructions}>
-        <ul className={styles.list}>
-          {foodDetail.steps.map((e, i) => (
-            <li key={i} className={styles.item}>
-              {e}
-            </li>
-          ))}
-        </ul>
-      </div>
+      {!loading && (
+        <>
+          <div className={styles.card}>
+            <h2 className={styles.name}>{foodDetail.name}</h2>
+            <img src={foodDetail.image} alt={foodDetail.name} />
+            <p
+              className={styles.summary}
+              dangerouslySetInnerHTML={{ __html: foodDetail.summary }}
+            ></p>
+            <div className={styles.tags}>
+              <span className={styles.healthScore}>
+                {foodDetail.healthScore}
+              </span>
+              <span className={styles.diets}>{foodDetail.diets}</span>
+            </div>
+          </div>
+          <div className={styles.instructions}>
+            <ul className={styles.list}>
+              {foodDetail.steps}
+
+              {/* {foodDetail.steps.map((e, i) => (
+                <li key={i} className={styles.item}>
+                  {e}
+                </li>
+              ))} */}
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   );
 };

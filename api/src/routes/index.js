@@ -18,7 +18,7 @@ router.get("/recipes/:idRecipe", async (req, res) => {
     const { idRecipe } = req.params;
     await axios
       .get(
-        `https://api.spoonacular.com/recipes/${idRecipe}/information?apiKey=${API_KEY}&includeNutrition=true. `
+        `https://api.spoonacular.com/recipes/${idRecipe}/information?apiKey=${API_KEY}&includeNutrition=true&number=100. `
       )
       .then((response) => {
         res.status(201).json(response.data);
@@ -35,7 +35,7 @@ router.get("/recipes", async (req, res) => {
     if (name) {
       const recipesByNameAPI = await axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?query=${name}&apiKey=${API_KEY}`
+          `https://api.spoonacular.com/recipes/complexSearch?query=${name}&number=100&apiKey=${API_KEY}&addRecipeInformation=true`
         )
         .then((response) => response.data);
       const recipesByName = await Recipe.findAll({
@@ -45,15 +45,17 @@ router.get("/recipes", async (req, res) => {
           },
         },
       });
-      res.status(201).json({ recipesByNameAPI, recipesByName });
+      const combinedRecipes = recipesByNameAPI.results.concat(recipesByName);
+      res.status(201).json({ combinedRecipes });
     } else {
       const allRecipesAPI = await axios
         .get(
-          `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}`
+          `https://api.spoonacular.com/recipes/complexSearch?number=100&apiKey=${API_KEY}&addRecipeInformation=true`
         )
         .then((response) => response.data);
       const allRecipesDB = await Recipe.findAll();
-      res.status(201).json({ allRecipesAPI, allRecipesDB });
+      const combinedRecipes = allRecipesAPI.results.concat(allRecipesDB);
+      res.status(201).json({ combinedRecipes });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -79,6 +81,9 @@ router.post("/recipes", async (req, res) => {
 
 router.get("/diets", async (req, res) => {
   try {
+    // const res = axios
+    //   .get(`https://api.spoonacular.com/recipes/dietTypes?apiKey=${API_KEY}`)
+    //   .then((response) => response.data);
     const diets = [
       { name: "Gluten Free" },
       { name: "Ketogenic" },

@@ -3,7 +3,7 @@ import styles from "./searchbar.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const SearchBar = ({ handleSearchChange }) => {
+const SearchBar = ({ handleSearchChange, fetchRecipesByName, changeOrder }) => {
   const [diets, setDiets] = useState([]);
   const navigate = useNavigate();
 
@@ -23,13 +23,18 @@ const SearchBar = ({ handleSearchChange }) => {
         type="text"
         placeholder="Search..."
       />
-      {/* <button className={styles.searchBtn}>Search</button> */}
-      <select className={styles.selectBox}>
+      <button className={styles.searchBtn} onClick={fetchRecipesByName}>
+        Search
+      </button>
+      <select onChange={changeOrder} className={styles.selectBox}>
         <option key={1} value="ASC">
           Ascending
         </option>
         <option key={2} value="DESC">
           Descending
+        </option>
+        <option key={3} value="HEALTHSCORE">
+          Health Score
         </option>
       </select>
       <select className={styles.selectBox}>

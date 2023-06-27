@@ -7,135 +7,28 @@ import Pagination from "../components/Pagination";
 
 const Home = () => {
   const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [recipesPerPage, setRecipesPerPage] = useState(9);
+  const recipesPerPage = 9;
 
-  const testRecipes = [
-    {
-      id: 1,
-      name: "cheese",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2", "3"],
-    },
-    {
-      id: 2,
-      name: "ham",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2"],
-    },
-    {
-      id: 3,
-      name: "cheeseburger",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1"],
-    },
-    {
-      id: 4,
-      name: "cheese",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2", "3"],
-    },
-    {
-      id: 5,
-      name: "ham",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2"],
-    },
-    {
-      id: 6,
-      name: "cheeseburger",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1"],
-    },
-    {
-      id: 7,
-      name: "cheese",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2", "3"],
-    },
-    {
-      id: 8,
-      name: "ham",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2"],
-    },
-    {
-      id: 9,
-      name: "cheeseburger",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1"],
-    },
-    {
-      id: 10,
-      name: "cheese",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2", "3"],
-    },
-    {
-      id: 11,
-      name: "ham",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2"],
-    },
-    {
-      id: 12,
-      name: "cheeseburger",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1"],
-    },
-    {
-      id: 13,
-      name: "cheese",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2", "3"],
-    },
-    {
-      id: 14,
-      name: "ham",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1", "2"],
-    },
-    {
-      id: 15,
-      name: "cheeseburger",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg",
-      diet: ["1"],
-    },
-  ];
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      setLoading(true);
+      const response = await axios.get("http://localhost:3001/recipes");
 
-  // useEffect(() => {
-  //   const fetchRecipes = async () => {
-  // setLoading(true);
-  //     const response = await axios.get('http://localhost:3001/recipes')
-  //     setRecipes(response.data);
-  // setLoading(false);
-
-  //   }
-  //   fetchRecipes()
-  // }, [])
+      setRecipes(
+        response.data.combinedRecipes.sort((a, b) =>
+          a.title.localeCompare(b.title)
+        )
+      );
+      setLoading(false);
+    };
+    fetchRecipes();
+  }, []);
 
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = testRecipes.slice(
-    indexOfFirstRecipe,
-    indexOfLastRecipe
-  );
+  // const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -146,8 +39,50 @@ const Home = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredRecipes = testRecipes.filter((rec) =>
-    rec.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const changeOrder = (e) => {
+    switch (e.target.value) {
+      case "ASC":
+        const sortedRecipesAsc = [...recipes].sort((a, b) =>
+          a.title.localeCompare(b.title)
+        );
+        setRecipes(sortedRecipesAsc);
+        break;
+      case "DESC":
+        const sortedRecipesDesc = [...recipes].sort((a, b) =>
+          b.title.localeCompare(a.title)
+        );
+        setRecipes(sortedRecipesDesc);
+        break;
+      case "HEALTHSCORE":
+        const sortedRecipesHealthScore = [...recipes].sort(
+          (a, b) => b.healthScore - a.healthScore
+        );
+        setRecipes(sortedRecipesHealthScore);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  const fetchRecipesByName = async () => {
+    if (searchTerm) {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:3001/recipes?name=${searchTerm}`
+      );
+      setRecipes(response.data.combinedRecipes);
+      setLoading(false);
+    } else {
+      setLoading(true);
+      const response = await axios.get("http://localhost:3001/recipes");
+      setRecipes(response.data.combinedRecipes);
+      setLoading(false);
+    }
+  };
+
+  const filteredRecipes = recipes.filter((rec) =>
+    rec.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const currentFilteredRecipes = filteredRecipes.slice(
@@ -157,18 +92,21 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <SearchBar handleSearchChange={handleSearchChange} />
-      {/* {searchTerm ? (
-        <FoodCards recipes={currentFilteredRecipes} />
-      ) : (
-        <FoodCards recipes={currentRecipes} />
-      )} */}
-      <FoodCards recipes={currentFilteredRecipes} />
-      <Pagination
-        postsPerPage={recipesPerPage}
-        totalPosts={filteredRecipes.length}
-        paginate={paginate}
-      />
+      {!loading && (
+        <>
+          <SearchBar
+            handleSearchChange={handleSearchChange}
+            fetchRecipesByName={fetchRecipesByName}
+            changeOrder={changeOrder}
+          />
+          <FoodCards recipes={currentFilteredRecipes} />
+          <Pagination
+            postsPerPage={recipesPerPage}
+            totalPosts={filteredRecipes.length}
+            paginate={paginate}
+          />
+        </>
+      )}
     </div>
   );
 };

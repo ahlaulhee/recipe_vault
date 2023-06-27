@@ -9,9 +9,9 @@ const FoodCards = ({ recipes }) => {
         <FoodCard
           key={i}
           id={rec.id}
-          name={rec.name}
+          title={rec.title}
           image={rec.image}
-          diet={rec.diet}
+          diets={rec.diets}
         />
       ))}
     </div>
