@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
       // autoIncrement: true,
     },
-    name: {
+    title: {
       // "title"
       type: DataTypes.STRING,
       allowNull: false,
@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    health_score: {
+    healthScore: {
       // "healthScore"
       type: DataTypes.FLOAT,
       allowNull: false,

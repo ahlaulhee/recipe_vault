@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import validate from "../utils/validation";
 import styles from "./form.module.css";
+import Notification from "../components/Notification";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const [newRecipe, setNewRecipe] = useState({
-    name: "",
+    title: "",
     summary: "",
-    health_score: "",
+    healthScore: "",
     steps: [],
     image: "",
     diets: [],
@@ -15,14 +17,32 @@ const Form = () => {
   const [errors, setErrors] = useState({});
   const [diets, setDiets] = useState([]);
 
+  const [showNotification, setShowNotification] = useState(false);
+  const [showNotificationError, setShowNotificationError] = useState(false);
+
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setNewRecipe({ ...newRecipe, [e.target.name]: e.target.value });
+    console.log(newRecipe);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (Object.keys(errors).length === 0) {
       await axios.post("http://localhost:3001/recipes", newRecipe);
+      setShowNotification(true);
+
+      setTimeout(() => {
+        setShowNotification(false);
+        navigate("/home");
+      }, 3000);
+    } else {
+      setShowNotificationError(true);
+
+      setTimeout(() => {
+        setShowNotificationError(false);
+      }, 3000);
     }
   };
 
@@ -69,16 +89,22 @@ const Form = () => {
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit} action="">
         <div className={styles.formGroup}>
+          <button
+            className={styles.backButton}
+            onClick={() => navigate("/home")}
+          >
+            Go Back
+          </button>
           <label className={styles.label} htmlFor="">
             Name
           </label>
           <input
             className={styles.input}
-            name="name"
+            name="title"
             onChange={handleChange}
             type="text"
           />
-          {errors?.name && <span className={styles.span}>{errors.name}</span>}
+          {errors?.title && <span className={styles.span}>{errors.title}</span>}
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="">
@@ -105,12 +131,12 @@ const Form = () => {
                 event.preventDefault();
               }
             }}
-            name="health_score"
+            name="healthScore"
             onChange={handleChange}
             type="number"
           />
-          {errors?.health_score && (
-            <span className={styles.span}>{errors.health_score}</span>
+          {errors?.healthScore && (
+            <span className={styles.span}>{errors.healthScore}</span>
           )}
         </div>
         <div className={styles.formGroup}>
@@ -154,6 +180,11 @@ const Form = () => {
           >
             Add
           </button>
+          <div>
+            {errors?.steps && (
+              <span className={styles.span}>{errors.steps}</span>
+            )}
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="">
@@ -180,7 +211,8 @@ const Form = () => {
               >
                 <option value="">Select Diet</option>
                 {diets.map((diet, dietIndex) => (
-                  <option key={dietIndex} value={diet.name}>
+                  // <option key={dietIndex} value={diet.name}>
+                  <option key={dietIndex} value={dietIndex}>
                     {diet.name}
                   </option>
                 ))}
@@ -206,11 +238,24 @@ const Form = () => {
           >
             Add
           </button>
+          <div>
+            {errors?.diets && (
+              <span className={styles.span}>{errors.diets}</span>
+            )}
+          </div>
         </div>
         <button className={styles.button} type="submit">
           Submit
         </button>
       </form>
+      <Notification
+        show={showNotification}
+        message="Form submitted successfully"
+      />
+      <Notification
+        show={showNotificationError}
+        message="Something went wrong. Check your fields and try again."
+      />
     </div>
   );
 };

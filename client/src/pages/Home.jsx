@@ -15,7 +15,7 @@ const Home = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const recipesPerPage = 9;
+  const recipesPerPage = 12;
 
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
@@ -30,6 +30,7 @@ const Home = ({
   };
 
   const changeOrder = (e) => {
+    paginate(1);
     switch (e.target.value) {
       case "ASC":
         const sortedRecipesAsc = [...recipes].sort((a, b) =>
@@ -56,6 +57,7 @@ const Home = ({
   };
 
   const changeDiet = (e) => {
+    paginate(1);
     switch (e.target.value) {
       case "Vegan":
         const filteredRecipesVegan = [...copyRecipes].filter((rec) =>
@@ -126,6 +128,7 @@ const Home = ({
   };
 
   const fetchRecipesByName = async () => {
+    paginate(1);
     if (searchTerm) {
       setLoading(true);
       const response = await axios.get(
@@ -139,6 +142,24 @@ const Home = ({
       setRecipes(response.data.combinedRecipes);
       setLoading(false);
     }
+  };
+
+  const fetchRecipes = async () => {
+    paginate(1);
+    setLoading(true);
+    const response = await axios.get("http://localhost:3001/recipes");
+
+    setRecipes(
+      response.data.combinedRecipes.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      )
+    );
+    setCopyRecipes(
+      response.data.combinedRecipes.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      )
+    );
+    setLoading(false);
   };
 
   const filteredRecipes = recipes.filter((rec) =>
@@ -157,6 +178,7 @@ const Home = ({
           <SearchBar
             handleSearchChange={handleSearchChange}
             fetchRecipesByName={fetchRecipesByName}
+            fetchRecipes={fetchRecipes}
             changeOrder={changeOrder}
             changeDiet={changeDiet}
           />
@@ -165,6 +187,8 @@ const Home = ({
             postsPerPage={recipesPerPage}
             totalPosts={filteredRecipes.length}
             paginate={paginate}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           />
         </>
       )}

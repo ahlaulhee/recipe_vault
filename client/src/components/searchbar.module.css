@@ -1,11 +1,13 @@
 .searchContainer {
-  padding-top: 1rem;
-
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #f8f8f8;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin-bottom: 15px;
+
+  flex-wrap: wrap;
 }
 
 .searchBar {
@@ -16,10 +18,13 @@
   border-width: 2px;
   transition: border-color 0.3s ease;
   outline: none;
+
+  flex: 1 0 200px;
+  margin: 10px;
 }
 
 .searchBar:focus {
-  border-color: #22bf3f;
+  border-color: #8cc68a;
 }
 
 .selectBox {
@@ -32,6 +37,9 @@
   background-position: right 10px center;
   background-size: 12px;
   transition: background-color 0.3s ease;
+
+  flex: 1 0 200px;
+  margin: 10px;
 }
 
 .selectBox option {
@@ -45,12 +53,15 @@
 .searchBtn {
   padding: 10px 20px;
   border: none;
-  background-color: #22bf3f;
+  background-color: #8cc68a;
   color: #fff;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
+
+  flex: 1 0 auto;
+  margin: 10px;
 }
 
 .searchBtn:hover {

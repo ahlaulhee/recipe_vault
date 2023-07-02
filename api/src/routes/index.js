@@ -38,14 +38,31 @@ router.get("/recipes", async (req, res) => {
           `https://api.spoonacular.com/recipes/complexSearch?query=${name}&number=100&apiKey=${API_KEY}&addRecipeInformation=true`
         )
         .then((response) => response.data);
-      const recipesByName = await Recipe.findAll({
+      let recipesByNameDB = await Recipe.findAll({
         where: {
-          name: {
+          title: {
             [Op.like]: `%${name}%`,
           },
         },
+        include: {
+          model: Diet,
+          as: "diets",
+          attributes: ["name"],
+          through: { attributes: [] },
+        },
       });
-      const combinedRecipes = recipesByNameAPI.results.concat(recipesByName);
+
+      recipesByNameAPI.results.forEach((recipe) => {
+        delete recipe.analyzedInstructions;
+      });
+
+      recipesByNameDB = recipesByNameDB.map((recipe) => {
+        recipe = recipe.get({ plain: true });
+        recipe.diets = recipe.diets.map((diet) => diet.name);
+        return recipe;
+      });
+
+      const combinedRecipes = recipesByNameAPI.results.concat(recipesByNameDB);
       res.status(201).json({ combinedRecipes });
     } else {
       const allRecipesAPI = await axios
@@ -53,7 +70,24 @@ router.get("/recipes", async (req, res) => {
           `https://api.spoonacular.com/recipes/complexSearch?number=100&apiKey=${API_KEY}&addRecipeInformation=true`
         )
         .then((response) => response.data);
-      const allRecipesDB = await Recipe.findAll();
+      let allRecipesDB = await Recipe.findAll({
+        include: {
+          model: Diet,
+          as: "diets",
+          attributes: ["name"],
+          through: { attributes: [] },
+        },
+      });
+
+      allRecipesAPI.results.forEach((recipe) => {
+        delete recipe.analyzedInstructions;
+      });
+
+      allRecipesDB = allRecipesDB.map((recipe) => {
+        recipe = recipe.get({ plain: true });
+        recipe.diets = recipe.diets.map((diet) => diet.name);
+        return recipe;
+      });
       const combinedRecipes = allRecipesAPI.results.concat(allRecipesDB);
       res.status(201).json({ combinedRecipes });
     }
@@ -64,12 +98,12 @@ router.get("/recipes", async (req, res) => {
 
 router.post("/recipes", async (req, res) => {
   try {
-    const { name, image, summary, health_score, steps, diets } = req.body;
+    const { title, image, summary, healthScore, steps, diets } = req.body;
     const newRecipe = await Recipe.create({
-      name,
+      title,
       image,
       summary,
-      health_score,
+      healthScore,
       steps,
     });
     await newRecipe.addDiets(diets);

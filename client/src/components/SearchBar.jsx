@@ -6,6 +6,7 @@ import axios from "axios";
 const SearchBar = ({
   handleSearchChange,
   fetchRecipesByName,
+  fetchRecipes,
   changeOrder,
   changeDiet,
 }) => {
@@ -31,6 +32,9 @@ const SearchBar = ({
       <button className={styles.searchBtn} onClick={fetchRecipesByName}>
         Search
       </button>
+      <button className={styles.searchBtn} onClick={fetchRecipes}>
+        Reset Search
+      </button>
       <select onChange={changeOrder} className={styles.selectBox}>
         <option key={1} value="ASC">
           Ascending
@@ -53,7 +57,7 @@ const SearchBar = ({
         ))}
       </select>
       <button className={styles.searchBtn} onClick={() => navigate("/form")}>
-        +
+        Share a recipe with us!
       </button>
     </div>
   );
