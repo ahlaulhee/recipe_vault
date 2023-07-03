@@ -45,25 +45,38 @@ const Detail = () => {
 
   return (
     <div className={styles.container}>
-      {!loading && (
+      {!loading ? (
         <>
           <div className={styles.card}>
             <h2 className={styles.name}>{foodDetail.name}</h2>
-            <img src={foodDetail.image} alt={foodDetail.name} />
+            <img
+              className={styles.image}
+              src={foodDetail.image}
+              alt={foodDetail.name}
+            />
             <p
               className={styles.summary}
               dangerouslySetInnerHTML={{ __html: foodDetail.summary }}
             ></p>
             <div className={styles.tags}>
-              <span className={styles.healthScore}>
+              <span
+                className={
+                  foodDetail.healthScore > 30
+                    ? styles.healthScoreGood
+                    : styles.healthScoreBad
+                }
+              >
                 {foodDetail.healthScore}
               </span>
-              <span className={styles.diets}>{foodDetail.diets}</span>
+              <span className={styles.diets}>
+                {foodDetail.diets.join(", ")}
+              </span>
             </div>
           </div>
           <div className={styles.instructions}>
+            <h2>Instructions: </h2>
             <ul className={styles.list}>
-              {foodDetail.steps}
+              {foodDetail.steps.replace(/<[^>]*>/g, "\n")}
 
               {/* {foodDetail.steps.map((e, i) => (
                 <li key={i} className={styles.item}>
@@ -73,6 +86,8 @@ const Detail = () => {
             </ul>
           </div>
         </>
+      ) : (
+        <div className={styles.loader}></div>
       )}
     </div>
   );

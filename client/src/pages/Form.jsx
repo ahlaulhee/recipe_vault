@@ -35,7 +35,7 @@ const Form = () => {
 
       setTimeout(() => {
         setShowNotification(false);
-        navigate("/home");
+        navigate("/home", { state: { refresh: true } });
       }, 3000);
     } else {
       setShowNotificationError(true);

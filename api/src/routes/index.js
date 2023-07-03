@@ -114,10 +114,11 @@ router.post("/recipes", async (req, res) => {
 });
 
 router.get("/diets", async (req, res) => {
+  // const res = axios
+  //   .get(`https://api.spoonacular.com/recipes/dietTypes?apiKey=${API_KEY}`)
+  //   .then((response) => response.data);
   try {
-    // const res = axios
-    //   .get(`https://api.spoonacular.com/recipes/dietTypes?apiKey=${API_KEY}`)
-    //   .then((response) => response.data);
+    const count = await Diet.count();
     const diets = [
       { name: "Gluten Free" },
       { name: "Ketogenic" },
@@ -131,8 +132,13 @@ router.get("/diets", async (req, res) => {
       { name: "Low FODMAP" },
       { name: "Whole30" },
     ];
-    const newDiets = await Diet.bulkCreate(diets);
-    res.json(newDiets);
+
+    if (count === 0) {
+      const newDiets = await Diet.bulkCreate(diets);
+      res.json(newDiets);
+    } else {
+      res.json(diets);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
