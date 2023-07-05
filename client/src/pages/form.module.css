@@ -2,9 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
   padding: 3%;
-  /* background-color: #f6f6f6; */
   font-family: "Roboto", sans-serif;
   text-align: center;
 }
@@ -111,7 +109,5 @@
 
 .span {
   color: #ff0000;
-  /* position: absolute; */
-  /* bottom: -20px; */
   font-size: 14px;
 }

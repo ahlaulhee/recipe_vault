@@ -6,7 +6,6 @@
 }
 
 .landingImg {
-  /* position: absolute; */
   top: 0;
   left: 0;
   width: 100%;
@@ -25,15 +24,12 @@
   font-size: 2em;
   color: white;
   background-color: rgb(255, 99, 71, 0.8);
-  /* background-color: #ff6347; */
   border: none;
-  /* border-radius: 5px; */
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .landingBtn:hover {
-  /* background-color: #d5d28f; */
   background-color: rgb(213, 210, 143, 0.95);
   color: black;
 }
@@ -48,7 +44,6 @@
 }
 
 .imageContainer {
-  /* display: flex; */
   text-align: center;
   gap: 10px;
 }

@@ -211,7 +211,6 @@ const Form = () => {
               >
                 <option value="">Select Diet</option>
                 {diets.map((diet, dietIndex) => (
-                  // <option key={dietIndex} value={diet.name}>
                   <option key={dietIndex} value={dietIndex}>
                     {diet.name}
                   </option>
