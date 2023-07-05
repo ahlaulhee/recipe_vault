@@ -244,7 +244,11 @@ const Form = () => {
             )}
           </div>
         </div>
-        <button className={styles.button} type="submit">
+        <button
+          disabled={errors === {}}
+          className={styles.button}
+          type="submit"
+        >
           Submit
         </button>
       </form>

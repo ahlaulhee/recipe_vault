@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import styles from "./searchbar.module.css";
+import styles from "./searchbarfavorites.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const SearchBar = ({
+const SearchBarFavorites = ({
   handleSearchChange,
-  fetchRecipesByName,
-  fetchRecipes,
   changeOrder,
   changeDiet,
 }) => {
@@ -32,12 +30,6 @@ const SearchBar = ({
         type="text"
         placeholder="Search..."
       />
-      <button className={styles.searchBtn} onClick={fetchRecipesByName}>
-        Search
-      </button>
-      <button className={styles.searchBtn} onClick={fetchRecipes}>
-        Reset Search
-      </button>
       <select onChange={changeOrder} className={styles.selectBox}>
         <option key={1} value="ASC">
           Ascending
@@ -72,4 +64,4 @@ const SearchBar = ({
   );
 };
 
-export default SearchBar;
+export default SearchBarFavorites;

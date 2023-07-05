@@ -20,7 +20,6 @@ const Home = ({
 
   const indexOfLastRecipe = currentPage * recipesPerPage;
   const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  // const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
 
   const location = useLocation();
 
@@ -28,6 +27,7 @@ const Home = ({
     if (location.state?.refresh) {
       fetchRecipes();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state]);
 
   const paginate = (pageNumber) => {
@@ -66,138 +66,61 @@ const Home = ({
     }
   };
 
+  const dietSearchStrings = {
+    Vegan: ["vegan"],
+    Vegetarian: ["vegetarian", "lacto ovo vegetarian"],
+    "Gluten Free": ["gluten free"],
+    Ketogenic: ["ketogenic"],
+    Pescetarian: ["pescatarian", "pescetarian"],
+    Paleo: ["paleo", "paleolithic"],
+    Primal: ["primal"],
+    Whole30: ["whole 30", "whole30"],
+    "Low FODMAP": ["fodmap friendly", "low fodmap"],
+    "Ovo-Vegetarian": ["dairy free", "ovo-vegetarian"],
+    "Lacto-Vegetarian": ["lacto-vegetarian"],
+  };
+
   const changeDiet = (e) => {
     paginate(1);
-    switch (e.target.value) {
-      case "Vegan":
-        const filteredRecipesVegan = [...copyRecipes].filter((rec) =>
-          rec.diets.includes("vegan")
-        );
-        setRecipes(filteredRecipesVegan);
-        break;
-      case "Vegetarian":
-        const filteredRecipesVegetarian = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["vegetarian", "lacto ovo vegetarian"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesVegetarian);
-        break;
-      case "Gluten Free":
-        const filteredRecipesGlutenFree = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["gluten free"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesGlutenFree);
-        break;
+    const dietType = e.target.value;
+    const searchStrings = dietSearchStrings[dietType];
 
-      case "Ketogenic":
-        const filteredRecipesKetogenic = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["ketogenic"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesKetogenic);
-        break;
-      case "Pescetarian":
-        const filteredRecipesPescetarian = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["pescatarian", "pescetarian"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesPescetarian);
-        break;
-      case "Paleo":
-        const filteredRecipesPaleolithic = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["paleo", "paleolithic"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesPaleolithic);
-        break;
-      case "Primal":
-        const filteredRecipesPrimal = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["primal"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesPrimal);
-        break;
-      case "Whole30":
-        const filteredRecipesWhole30 = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["whole 30", "whole30"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesWhole30);
-        break;
-      case "Low FODMAP":
-        const filteredRecipesLowFodmap = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["fodmap friendly", "low fodmap"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesLowFodmap);
-        break;
-      case "Ovo-Vegetarian":
-        const filteredRecipesOvoVegetarian = [...copyRecipes].filter((rec) => {
-          let diets = rec.diets.map((diet) => diet.toLowerCase());
-          let searchStrings = ["dairy free", "ovo-vegetarian"];
-          return searchStrings.some((str) => diets.includes(str));
-        });
-        setRecipes(filteredRecipesOvoVegetarian);
-        break;
-      case "Lacto-Vegetarian":
-        const filteredRecipesLactoVegetarian = [...copyRecipes].filter(
-          (rec) => {
-            let diets = rec.diets.map((diet) => diet.toLowerCase());
-            let searchStrings = ["lacto-vegetarian"];
-            return searchStrings.some((str) => diets.includes(str));
-          }
-        );
-        setRecipes(filteredRecipesLactoVegetarian);
-        break;
-      // didnt found lacto vegetarian tag on diets
-      default:
-        setRecipes(copyRecipes);
-        break;
+    if (searchStrings) {
+      const filteredRecipes = [...copyRecipes].filter((rec) => {
+        let diets = rec.diets.map((diet) => diet.toLowerCase());
+        return searchStrings.some((str) => diets.includes(str));
+      });
+      setRecipes(filteredRecipes);
+    } else {
+      setRecipes(copyRecipes);
     }
+  };
+
+  const fetchData = async (url) => {
+    setLoading(true);
+    const response = await axios.get(url);
+    const sortedRecipes = response.data.combinedRecipes.sort((a, b) =>
+      a.title.localeCompare(b.title)
+    );
+    setLoading(false);
+    return sortedRecipes;
   };
 
   const fetchRecipesByName = async () => {
     paginate(1);
-    if (searchTerm) {
-      setLoading(true);
-      const response = await axios.get(
-        `http://localhost:3001/recipes?name=${searchTerm}`
-      );
-      setRecipes(response.data.combinedRecipes);
-      setLoading(false);
-    } else {
-      setLoading(true);
-      const response = await axios.get("http://localhost:3001/recipes");
-      setRecipes(response.data.combinedRecipes);
-      setLoading(false);
-    }
+    const url = searchTerm
+      ? `http://localhost:3001/recipes?name=${searchTerm}`
+      : "http://localhost:3001/recipes";
+    const sortedRecipes = await fetchData(url);
+    setRecipes(sortedRecipes);
   };
 
   const fetchRecipes = async () => {
     paginate(1);
-    setLoading(true);
-    const response = await axios.get("http://localhost:3001/recipes");
-
-    setRecipes(
-      response.data.combinedRecipes.sort((a, b) =>
-        a.title.localeCompare(b.title)
-      )
-    );
-    setCopyRecipes(
-      response.data.combinedRecipes.sort((a, b) =>
-        a.title.localeCompare(b.title)
-      )
-    );
-    setLoading(false);
+    const url = "http://localhost:3001/recipes";
+    const sortedRecipes = await fetchData(url);
+    setRecipes(sortedRecipes);
+    setCopyRecipes(sortedRecipes);
     setSearchTerm("");
   };
 

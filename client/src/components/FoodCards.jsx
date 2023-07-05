@@ -1,14 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styles from "./foodcards.module.css";
 import FoodCard from "./FoodCard";
+import { toggleFavorite } from "../redux/actions";
 
 const FoodCards = ({ recipes }) => {
-  // const allDiets = () => {
-  //   const copyDiets = [...recipes.diets]
-  //   if (recipes.vegetarian) copyDiets.push("vegetarian");
-  //   if (recipes.vegan) copyDiets.push("vegan");
-  //   if (recipes.glutenFree) copyDiets.push("glutenFree");
-  // }
+  const dispatch = useDispatch();
   return (
     <div className={styles.recipes}>
       {recipes.map((rec, i) => (
@@ -18,6 +15,7 @@ const FoodCards = ({ recipes }) => {
           title={rec.title}
           image={rec.image}
           diets={rec.diets}
+          addFavorite={() => dispatch(toggleFavorite(rec))}
         />
       ))}
     </div>

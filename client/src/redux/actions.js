@@ -1,32 +1,38 @@
-import axios from "axios";
+export const FETCH_FAVORITES = "FETCH_FAVORITES";
+export const TOGGLE_FAVORITE = "TOGGLE_FAVORITE";
+export const FILTER_FAVORITES = "FILTER_FAVORITES";
+export const ORDER_FAVORITES = "ORDER_FAVORITES";
+// export const ADD_FAVORITE = "ADD_FAVORITE";
+// export const REMOVE_FAVORITE = "REMOVE_FAVORITE";
 
-export const FETCH_RECIPES = "FETCH_RECIPES";
-export const FETCH_DIETS = "FETCH_DIETS";
-export const FIND_RECIPE = "FIND_RECIPE";
-
-export const fetchRecipes = () => {
-  const endpoint = "http://localhost:3001/recipes";
-  return async (dispatch) => {
-    const response = await axios.get(endpoint);
-    return dispatch({
-      type: FETCH_RECIPES,
-      payload: response.data.allRecipesDB,
-    });
-  };
-};
-
-export const fetchDiets = () => {
-  const endpoint = "http://localhost:3001/diets";
-  return async (dispatch) => {
-    const response = await axios.get(endpoint);
-    return dispatch({
-      type: FETCH_DIETS,
-      payload: response.data,
-    });
-  };
-};
-
-export const findRecipe = (id) => ({
-  type: FIND_RECIPE,
-  payload: id,
+export const fetchFavorites = () => ({
+  type: FETCH_FAVORITES,
 });
+
+export const toggleFavorite = (recipe) => ({
+  type: TOGGLE_FAVORITE,
+  payload: recipe,
+});
+
+// export const addFavorite = (recipe) => ({
+//   type: ADD_FAVORITE,
+//   payload: recipe,
+// });
+
+// export const removeFavorite = (recipe) => ({
+//   type: REMOVE_FAVORITE,
+//   payload: recipe,
+// });
+
+export const filterFavorites = (diet) => {
+  return {
+    type: FILTER_FAVORITES,
+    payload: diet,
+  };
+};
+export const orderFavorites = (order) => {
+  return {
+    type: ORDER_FAVORITES,
+    payload: order,
+  };
+};

@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Form from "./pages/Form";
 import Detail from "./pages/Detail";
 import Error from "./pages/Error";
+import Favorites from "./pages/Favorites";
 
 function App() {
   const [recipes, setRecipes] = useState([]);
@@ -37,6 +38,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route
           path="/home"
           element={

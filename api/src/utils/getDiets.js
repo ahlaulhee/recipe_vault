@@ -21,7 +21,7 @@ const getDiets = async (req, res) => {
       const newDiets = await Diet.bulkCreate(diets);
       res.status(200).json(newDiets);
     } else {
-      res.status(304).json(diets);
+      res.json(diets);
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
